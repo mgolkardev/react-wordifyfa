@@ -1,39 +1,42 @@
 // Persian Wordifier
 // Version: 1.3.0
 // Author: Salman Arab Ameri
+// React: Mohammad Golkar @mgolkardev - Publish: 2021-01-31
 // Publish: 2020-05-15
 // with use of ideas in http://www.dotnettips.info/post/626/%D8%AA%D8%A8%D8%AF%DB%8C%D9%84-%D8%B9%D8%AF%D8%AF-%D8%A8%D9%87-%D8%AD%D8%B1%D9%88%D9%81
+// React version: https://github.com/mgolkardev/react-wordifyfa
 
-function wordifyfa(num:string|number, level:number=0):string {
-    function toEnglishDigits(num:string|number):number {
-        if (typeof num !== 'string')
+const wordifyfa = (num: string | number, level = 0): string => {
+    const toEnglishDigits = (num: string | number): number => {
+        if (typeof num !== "string") {
             return num;
-        const faDigits = '۰۱۲۳۴۵۶۷۸۹';
-        const arDigits = '٠١٢٣٤٥٦٧٨٩';
+        }
+        const faDigits = "۰۱۲۳۴۵۶۷۸۹";
+        const arDigits = "٠١٢٣٤٥٦٧٨٩";
         let output = "";
-        for (let ipos = 0; ipos < num.length; ipos++) {
+        for (const n of num) {
 
-            let faIndex = faDigits.indexOf(num[ipos]);
+            const faIndex = faDigits.indexOf(n);
             if (faIndex >= 0) {
                 output += faIndex.toString();
                 continue;
             }
-            let arIndex = arDigits.indexOf(num[ipos]);
+            const arIndex = arDigits.indexOf(n);
             if (arIndex >= 0) {
                 output += arIndex.toString();
                 continue;
             }
-            output += num[ipos];
+            output += n;
         }
         return parseInt(output.replace(/,/g, ""));
-    }
+    };
 
     if (num === null) {
         return "";
     }
 
     num = toEnglishDigits(num);
-    
+
 
     // convert negative number to positive and get wordify value
     if (num < 0) {
@@ -48,10 +51,10 @@ function wordifyfa(num:string|number, level:number=0):string {
         }
     }
     let result = "";
-    const yekan = [" یک ", " دو ", " سه ", " چهار ", " پنج ", " شش ", " هفت ", " هشت ", " نه "],
-        dahgan = [" بیست ", " سی ", " چهل ", " پنجاه ", " شصت ", " هفتاد ", " هشتاد ", " نود "],
-        sadgan = [" یکصد ", " دویست ", " سیصد ", " چهارصد ", " پانصد ", " ششصد ", " هفتصد ", " هشتصد ", " نهصد "],
-        dah = [" ده ", " یازده ", " دوازده ", " سیزده ", " چهارده ", " پانزده ", " شانزده ", " هفده ", " هیجده ", " نوزده "];
+    const yekan = [" یک ", " دو ", " سه ", " چهار ", " پنج ", " شش ", " هفت ", " هشت ", " نه "];
+    const dahgan = [" بیست ", " سی ", " چهل ", " پنجاه ", " شصت ", " هفتاد ", " هشتاد ", " نود "];
+    const sadgan = [" یکصد ", " دویست ", " سیصد ", " چهارصد ", " پانصد ", " ششصد ", " هفتصد ", " هشتصد ", " نهصد "];
+    const dah = [" ده ", " یازده ", " دوازده ", " سیزده ", " چهارده ", " پانزده ", " شانزده ", " هفده ", " هیجده ", " نوزده "];
     if (level > 0) {
         result += " و ";
         level -= 1;
@@ -76,45 +79,24 @@ function wordifyfa(num:string|number, level:number=0):string {
     }
 
     return result;
-}
+};
 
-function wordifyRials(num:string|number):string {
-    return wordifyfa(num, 0) + " ریال";
-}
+const wordifyRials = (num: string | number): string => wordifyfa(num, 0) + " ریال";
 
-function wordifyRialsInTomans(num:string|number):string {
-    if(typeof num == "string") {
-        num=parseInt(num);
+const wordifyRialsInTomans = (num: string | number): string => {
+    if (typeof num == "string") {
+        num = parseInt(num);
     }
-    if (num >= 10 || num<=-10) {
+    if (num >= 10 || num <= -10) {
         num = Math.floor(num / 10);
     } else {
         num = 0;
     }
     return wordifyfa(num, 0) + " تومان";
-}
+};
 
-declare var define: any;
-declare var module: any;
-
-(function() {
-    //expose it through Window
-    if (window) {
-        //exportables.forEach(exp => (window as any)[nameof(exp)] = exp);
-        (window as any)["wordifyfa"] = wordifyfa;
-        (window as any)["wordifyRials"] = wordifyRials;
-        (window as any)["wordifyRialsInTomans"] = wordifyRialsInTomans;
-    }    
-    // Node: Export function
-    else if (typeof module !== "undefined" && module.exports) {
-        module.exports["wordifyfa"] = wordifyfa;
-        module.exports["wordifyRials"] = wordifyRials;
-        module.exports["wordifyRialsInTomans"] = wordifyRialsInTomans;
-    }
-    // AMD/requirejs: Define the module
-    else if (typeof define === 'function' && define.amd) {
-        define(() => wordifyfa);
-        define(() => wordifyRials);
-        define(() => wordifyRialsInTomans);
-    }
-}())
+export {
+    wordifyfa,
+    wordifyRials,
+    wordifyRialsInTomans
+};
