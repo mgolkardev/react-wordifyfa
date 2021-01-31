@@ -2,7 +2,6 @@
     "name": "wordifyfa",
     "version": "1.3.0",
     "description": "Persian Wordifier converts simple numbers to words.\r for example you can use this:",
-    "main": "src/wordifyfa.ts",
     "dependencies": {},
     "devDependencies": {
         "terser-webpack-plugin": "^4.2.3",
