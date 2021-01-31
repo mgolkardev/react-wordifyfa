@@ -1,4 +1,12 @@
 Persian Wordifier converts simple numbers to words.
+
+# installation:
+```shell
+npm i react-wordifyfa
+yarn add react-wordifyfa
+```
+
+
 for example you can use this:
 
 ```
